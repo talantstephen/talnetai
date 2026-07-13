@@ -11,10 +11,7 @@ import { createResponsesWsProxy } from "./responses-ws-proxy.mjs";
 import { ensurePeerStampToken, stampPeerIp } from "./peer-stamp.mjs";
 import methodGuard from "./http-method-guard.cjs";
 import { ensureNativeSqlite } from "./ensure-native-sqlite.mjs";
-import {
-  isTurbopackCacheCorruption,
-  purgeAllTurbopackCaches,
-} from "./turbopackCacheHeal.mjs";
+import { isTurbopackCacheCorruption, purgeAllTurbopackCaches } from "./turbopackCacheHeal.mjs";
 import { randomUUID } from "node:crypto";
 
 const { maybeHandleDisallowedMethod } = methodGuard;
@@ -117,7 +114,8 @@ async function prepareWithHeal() {
   try {
     await nextApp.prepare();
   } catch (error) {
-    const detail = error instanceof Error ? `${error.message}\n${error.stack ?? ""}` : String(error);
+    const detail =
+      error instanceof Error ? `${error.message}\n${error.stack ?? ""}` : String(error);
     if (!useTurbopack || !isTurbopackCacheCorruption(detail)) throw error;
     console.warn(
       "[Next] Turbopack dev cache looks corrupted (Windows mmap / os error 1455 — known upstream bug). Purging and retrying once…"
@@ -189,6 +187,11 @@ async function start() {
     console.log(
       `[Next] ${mode} server listening on http://${hostname}:${dashboardPort} (${bundler})`
     );
+    // Auto-open the dashboard in the default browser once the server is up.
+    // Set TALNET_NO_BROWSER=1 to disable (e.g. headless/CI dev).
+    if (process.env.TALNET_NO_BROWSER !== "1") {
+      import("open").then((m) => m.default(`http://localhost:${dashboardPort}`)).catch(() => {});
+    }
   });
 }
 
