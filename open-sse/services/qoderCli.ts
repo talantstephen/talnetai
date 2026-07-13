@@ -85,7 +85,7 @@ export function getQoderCliConfigDir(): string {
   const explicit = String(process.env.QODER_CLI_CONFIG_DIR || "").trim();
   if (explicit) return explicit;
   const dataDir = String(process.env.DATA_DIR || "").trim();
-  const base = dataDir || path.join(os.homedir() || os.tmpdir(), ".omniroute");
+  const base = dataDir || path.join(os.homedir() || os.tmpdir(), ".talnet");
   return path.join(base, "qoder-cli");
 }
 

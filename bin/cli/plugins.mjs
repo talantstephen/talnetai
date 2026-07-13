@@ -6,9 +6,7 @@ import { pathToFileURL } from "node:url";
 const PLUGIN_PREFIX_RE = /^(@[^/]+\/)?omniroute-cmd-/;
 
 function getPluginDirs() {
-  return [join(homedir(), ".omniroute", "plugins"), process.env.OMNIROUTE_PLUGIN_PATH].filter(
-    Boolean
-  );
+  return [join(homedir(), ".talnet", "plugins"), process.env.TALNET_PLUGIN_PATH].filter(Boolean);
 }
 
 export async function discoverPlugins() {

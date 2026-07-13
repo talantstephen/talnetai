@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { homedir } from "node:os";
 import { execSync } from "node:child_process";
 
-const RUNTIME_DIR = join(homedir(), ".omniroute", "runtime");
+const RUNTIME_DIR = join(homedir(), ".talnet", "runtime");
 // systray2 is a maintained fork with prebuilt binaries — installed lazily at runtime,
 // not in dependencies, to avoid npm install overhead for users who don't use --tray.
 //

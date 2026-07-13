@@ -52,7 +52,7 @@ function compareVersions(a, b) {
 
 export async function createBackup() {
   const binPath = BIN_DIR;
-  const backupDir = path.join(homedir(), ".omniroute", "backups", `omniroute-${Date.now()}`);
+  const backupDir = path.join(homedir(), ".talnet", "backups", `talnet-${Date.now()}`);
 
   try {
     const { mkdirSync, cpSync, existsSync } = await import("node:fs");
@@ -147,7 +147,7 @@ export async function runUpdateCommand(opts = {}) {
 
   if (dryRun) {
     console.log("\n  [DRY RUN] Would run: npm install -g omniroute@latest --include=optional");
-    if (!skipBackup) console.log("  [DRY RUN] Would create backup in ~/.omniroute/backups/");
+    if (!skipBackup) console.log("  [DRY RUN] Would create backup in ~/.talnet/backups/");
     return 0;
   }
 
@@ -187,7 +187,7 @@ export async function runUpdateCommand(opts = {}) {
   } catch (err) {
     printError(`Update failed: ${err.message}`);
     printInfo("Restore from backup:");
-    const backupDir = path.join(homedir(), ".omniroute", "backups");
+    const backupDir = path.join(homedir(), ".talnet", "backups");
     printInfo(`  ls ${backupDir}`);
     return 1;
   }

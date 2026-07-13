@@ -1,11 +1,11 @@
 {
-  "name": "omniroute",
+  "name": "talnet",
   "version": "3.8.46",
-  "description": "Unified AI router with 160+ providers, RTK+Caveman compression, auto fallback, MCP/A2A, desktop, PWA, and OpenAI-compatible APIs.",
+  "description": "TalNet AI — Unified AI router with 237+ providers, RTK+Caveman compression, auto fallback, MCP/A2A, desktop, PWA, and OpenAI-compatible APIs.",
   "type": "module",
   "bin": {
-    "omniroute": "bin/omniroute.mjs",
-    "omniroute-reset-password": "bin/reset-password.mjs"
+    "talnet": "bin/talnet.mjs",
+    "talnet-reset-password": "bin/reset-password.mjs"
   },
   "files": [
     "bin/",
@@ -67,12 +67,12 @@
     "auto-fallback"
   ],
   "license": "MIT",
-  "author": "diegosouzapw",
+  "author": "talantstephen",
   "repository": {
     "type": "git",
-    "url": "https://github.com/diegosouzapw/OmniRoute"
+    "url": "https://github.com/talantstephen/talnetai.git"
   },
-  "homepage": "https://omniroute.online",
+  "homepage": "https://talnetcomputers.com/",
   "scripts": {
     "dev": "node --max-old-space-size=8192 scripts/dev/run-next.mjs dev",
     "prebuild:docs": "node scripts/docs/gen-openapi-module.mjs",
@@ -361,7 +361,7 @@
       "@swc/core",
       "better-sqlite3",
       "esbuild",
-      "omniroute",
+      "talnet",
       "sharp"
     ]
   },

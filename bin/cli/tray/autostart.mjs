@@ -4,10 +4,10 @@ import { homedir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const APP_LABEL = "com.omniroute.autostart";
-const WIN_REG_VALUE = "OmniRoute";
-const LINUX_SERVICE_NAME = "omniroute.service";
-const LINUX_DESKTOP_NAME = "omniroute.desktop";
+const APP_LABEL = "com.talnet.autostart";
+const WIN_REG_VALUE = "TalNet";
+const LINUX_SERVICE_NAME = "talnet.service";
+const LINUX_DESKTOP_NAME = "talnet.desktop";
 
 function resolveCliPath() {
   const candidates = [];
@@ -112,7 +112,7 @@ function tryEnableLinger() {
 function writeLinuxSystemdUnit(cliPath) {
   const unitDir = dirname(linuxSystemdUnitPath());
   mkdirSync(unitDir, { recursive: true });
-  const envFile = join(userHomeDir(), ".omniroute", ".env");
+  const envFile = join(userHomeDir(), ".talnet", ".env");
   const lines = [
     "[Unit]",
     "Description=OmniRoute AI proxy router",

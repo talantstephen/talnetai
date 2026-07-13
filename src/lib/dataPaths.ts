@@ -2,7 +2,9 @@ import path from "path";
 import os from "os";
 import fs from "fs";
 
-export const APP_NAME = "omniroute";
+export const APP_NAME = "talnet";
+// Previous product name — kept only as a one-time migration source for existing data.
+export const LEGACY_APP_NAME = "omniroute";
 
 function fallbackHomeDir() {
   const envHome = process.env.HOME || process.env.USERPROFILE;

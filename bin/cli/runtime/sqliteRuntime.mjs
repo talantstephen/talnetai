@@ -5,7 +5,7 @@ import { execSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
 import { validateBinaryMagic, platformBinaryLabel } from "./magicBytes.mjs";
 
-const RUNTIME_DIR = join(homedir(), ".omniroute", "runtime");
+const RUNTIME_DIR = join(homedir(), ".talnet", "runtime");
 const BETTER_SQLITE3_VERSION = "better-sqlite3@^12.10.1";
 
 let resolvedCached = null;

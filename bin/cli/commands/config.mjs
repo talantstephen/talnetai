@@ -8,7 +8,7 @@ import { registerContexts } from "./contexts.mjs";
 
 function ensureBackup(configPath) {
   if (!fs.existsSync(configPath)) return;
-  const backupDir = path.join(path.dirname(configPath), ".omniroute.bak");
+  const backupDir = path.join(path.dirname(configPath), ".talnet.bak");
   if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true });
   const backupPath = path.join(backupDir, path.basename(configPath) + ".bak");
   fs.copyFileSync(configPath, backupPath);

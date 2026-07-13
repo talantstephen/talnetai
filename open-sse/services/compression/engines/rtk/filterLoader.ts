@@ -60,7 +60,7 @@ function getModuleDir(): string {
       dir = parent;
     }
   }
-  return path.join(os.homedir(), ".omniroute");
+  return path.join(os.homedir(), ".talnet");
 }
 
 function getFiltersDir(): string {
@@ -77,7 +77,7 @@ function getFiltersDir(): string {
 }
 
 function getDataDir(): string {
-  return process.env.DATA_DIR || path.join(os.homedir(), ".omniroute");
+  return process.env.DATA_DIR || path.join(os.homedir(), ".talnet");
 }
 
 function sha256(value: string): string {

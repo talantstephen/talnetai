@@ -36,6 +36,7 @@ const FORBIDDEN_PATH_SEGMENTS = new Set([
   ".git",
   ".ssh",
   ".omniroute",
+  ".talnet",
   ".codex",
   "secrets",
 ]);
