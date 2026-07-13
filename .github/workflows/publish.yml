@@ -1,0 +1,70 @@
+name: Publish to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run npm pack --dry-run only (no publish)"
+        required: false
+        default: "false"
+
+# Minimal token: only needs to read contents. NPM_TOKEN (secret) is used for publish.
+permissions:
+  contents: read
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    # Generous timeout: the standalone Next.js build can take 10-20 min on a 2-core runner.
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          cache: "npm"
+
+      - name: Install dependencies
+        # `npm ci` runs the package postinstall (no-op here because dist/ does not
+        # exist yet — the native-binary fix only fires once dist/ is assembled).
+        run: npm ci
+
+      - name: Build standalone dist/ (assembles server bundle)
+        # Uses Turbopack by default (validated on ubuntu-latest by upstream CI).
+        # Memory is raised via OMNIROUTE_BUILD_MEMORY_MB for the Node heap. If the
+        # Rust/Turbopack engine OOMs on the 7 GB runner, re-run the build with:
+        #   OMNIROUTE_USE_TURBOPACK=0  (pure-JS webpack escape hatch, ~3.9 GB peak)
+        env:
+          OMNIROUTE_BUILD_MEMORY_MB: "6144"
+        run: npm run build:release
+
+      - name: Dry run (pack only)
+        if: ${{ github.event.inputs.dry_run == 'true' }}
+        run: |
+          npm pack --dry-run --json > pack-dryrun.json
+          node -e '
+            const j = JSON.parse(require("fs").readFileSync("pack-dryrun.json","utf8"));
+            const files = (j[0] || j).files.map(x => x.path);
+            console.log("Total files:", files.length);
+            const unpacked = ((j[0] || j).unpackedSize || 0) / 1048576;
+            console.log("Unpacked size:", unpacked.toFixed(1), "MB");
+            for (const need of ["dist/server.js", "bin/talnet.mjs"]) {
+              if (!files.some(p => p.startsWith(need))) {
+                throw new Error("MISSING required file: " + need);
+              }
+            }
+            console.log("Required runtime files present: OK");
+          '
+
+      - name: Publish to npm
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        # prepublishOnly (build:cli-api + build:cli + check:pack-artifact) runs automatically.
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
