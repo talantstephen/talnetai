@@ -1,0 +1,4 @@
+git clone https://github.com/talantstephen/talnetai
+cd talnetai
+npm install
+npm run dev        # http://localhost:20128 — no build needed
